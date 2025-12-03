@@ -115,7 +115,7 @@ export default function ResultsPage() {
           </div>
 
           {/* Revenue Comparison */}
-          {result.estimated_revenue && (
+          {result.estimated_revenue && result.benchmark_revenue && (
             <div className="mt-8 p-6 bg-gray-50 rounded-xl">
               <h3 className="font-semibold text-gray-900 mb-4">Umsatz-Vergleich:</h3>
               <div className="flex items-center justify-between">
@@ -138,7 +138,7 @@ export default function ResultsPage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Top 3 Critical Issues</h2>
 
           <div className="space-y-6">
-            {result.top_issues.slice(0, 3).map((issue: any, index: number) => (
+            {(result.issues || []).slice(0, 3).map((issue: any, index: number) => (
               <div key={index} className="border border-gray-200 rounded-xl p-6">
                 <div className="flex items-start gap-4">
                   {getSeverityIcon(issue.severity)}
