@@ -65,7 +65,8 @@ export default function PayPalButton({
         try {
           setLoading(true);
 
-          const response = await fetch('http://localhost:8000/api/create-payment', {
+          const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://web-production-88c1a.up.railway.app';
+          const response = await fetch(`${apiUrl}/api/create-payment`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
