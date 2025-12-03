@@ -18,6 +18,8 @@ export default function PayPalButton({
   onSuccess,
   onError
 }: PayPalButtonProps) {
+  const clientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || 'ATUV5mqZLUqnp8XNPqGq9F8ZLIPQ3fxWdOtHw0Qx-jWVPqT_duG';
+
   const [loading, setLoading] = useState(false);
   const [paypalLoaded, setPaypalLoaded] = useState(false);
   const buttonRendered = useRef(false);
@@ -26,7 +28,7 @@ export default function PayPalButton({
     // Load PayPal SDK
     if (typeof window !== 'undefined' && !(window as any).paypal) {
       const script = document.createElement('script');
-      script.src = `https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID}&currency=${currency}`;
+      script.src = `https://www.paypal.com/sdk/js?client-id=ATUV5mqZLUqnp8XNPqGq9F8ZLIPQ3fxWdOtHw0Qx-jWVPqT_duG&currency=${currency}&intent=capture&locale=de_DE`;
       script.addEventListener('load', () => setPaypalLoaded(true));
       script.addEventListener('error', () => {
         onError('Failed to load PayPal SDK');
