@@ -28,7 +28,7 @@ export default function PayPalButton({
     // Load PayPal SDK
     if (typeof window !== 'undefined' && !(window as any).paypal) {
       const script = document.createElement('script');
-      script.src = `https://www.paypal.com/sdk/js?client-id=ATUV5mqZLUqnp8XNPqGq9F8ZLIPQ3fxWdOtHw0Qx-jWVPqT_duG&currency=${currency}&intent=capture&locale=de_DE`;
+      script.src = `https://www.paypal.com/sdk/js?client-id=ATUVPR93cmbUqgc1tQvPYpvDhQze96zuZWaTmx44v03rMHcqUABq69fZ40ZLMxyi8bJ0p-L-0PMWXrHd&currency=${currency}&intent=capture&locale=de_DE`;
       script.addEventListener('load', () => setPaypalLoaded(true));
       script.addEventListener('error', () => {
         onError('Failed to load PayPal SDK');
