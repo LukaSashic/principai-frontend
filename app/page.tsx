@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 
 // Exit Intent Modal Component
 function ExitIntentModal() {
@@ -23,17 +24,17 @@ function ExitIntentModal() {
   if (!showModal) return null
 
   return (
-    <div 
+    <div
       className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4"
       onClick={() => setShowModal(false)}
     >
-      <div 
+      <div
         className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8 relative animate-in fade-in slide-in-from-bottom-4 duration-300"
         onClick={(e) => e.stopPropagation()}
       >
-        
+
         {/* Close Button */}
-        <button 
+        <button
           onClick={() => setShowModal(false)}
           className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-3xl leading-none"
           aria-label="Schließen"
@@ -51,7 +52,7 @@ function ExitIntentModal() {
             Teste <span className="font-bold text-[#2C5530]">kostenlos</span>,<br />
             ob dein Plan durchkommt
           </p>
-          
+
           <div className="bg-[#E8F5E9] rounded-xl p-4 mb-6">
             <p className="text-sm text-gray-700">
               <span className="font-bold">Nur 11%</span> der Anträge werden bewilligt.
@@ -60,13 +61,15 @@ function ExitIntentModal() {
             </p>
           </div>
 
-          <button 
-            onClick={() => setShowModal(false)}
-            className="w-full bg-gradient-to-r from-[#2C5530] to-[#1E3A21] text-white text-lg font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-200"
-          >
-            Kostenlos testen
-          </button>
-          
+          <Link href="/upload">
+            <button
+              onClick={() => setShowModal(false)}
+              className="w-full bg-gradient-to-r from-[#2C5530] to-[#1E3A21] text-white text-lg font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-200 cursor-pointer"
+            >
+              Kostenlos testen
+            </button>
+          </Link>
+
           <p className="text-xs text-gray-500 mt-3">
             Keine Anmeldung • Ergebnis in 2 Minuten
           </p>
@@ -87,14 +90,14 @@ function SmartWarningBar() {
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY
-      
+
       // Hide when scrolling down past 100px, show when scrolling up
       if (currentScrollY > lastScrollY && currentScrollY > 100) {
         setIsVisible(false)
       } else {
         setIsVisible(true)
       }
-      
+
       setLastScrollY(currentScrollY)
     }
 
@@ -113,7 +116,7 @@ function SmartWarningBar() {
   }, [lastScrollY])
 
   return (
-    <div 
+    <div
       className={`
         bg-amber-500 py-3 px-4 text-center border-b-2 border-amber-600
         sticky top-0 z-50 transition-transform duration-300
@@ -123,8 +126,8 @@ function SmartWarningBar() {
       <div className="max-w-7xl mx-auto">
         {/* Desktop Version */}
         <p className="hidden md:block text-gray-900 font-semibold text-base">
-          ⚠️ <span className="font-bold">2011: 240.000 Bewilligungen</span> → 
-          <span className="font-bold ml-2">2024: nur 27.000</span> | 
+          ⚠️ <span className="font-bold">2011: 240.000 Bewilligungen</span> →
+          <span className="font-bold ml-2">2024: nur 27.000</span> |
           <span className="ml-2">Kein Rechtsanspruch – Ermessensleistung</span>
         </p>
         {/* Mobile Version (Stacked) */}
@@ -144,10 +147,10 @@ function SmartWarningBar() {
 export default function ZuschussCheckLandingPage() {
   return (
     <div className="min-h-screen bg-white">
-      
+
       {/* Exit Intent Modal */}
       <ExitIntentModal />
-      
+
       {/* Smart Warning Bar (Sticky with auto-hide) */}
       <SmartWarningBar />
 
@@ -156,7 +159,7 @@ export default function ZuschussCheckLandingPage() {
           ============================================ */}
       <section className="bg-gradient-to-b from-[#F8F6F0] to-white py-12 md:py-24 px-4">
         <div className="max-w-5xl mx-auto">
-          
+
           {/* Logo/Branding */}
           <div className="text-center mb-8">
             <p className="text-gray-600 text-sm mb-2">von PrincipalAI</p>
@@ -205,9 +208,11 @@ export default function ZuschussCheckLandingPage() {
 
           {/* ⭐ EARLY CTA - BEFORE BENEFITS ⭐ */}
           <div className="text-center mb-12">
-            <button className="bg-gradient-to-r from-[#2C5530] to-[#1E3A21] text-white text-xl md:text-2xl font-bold py-5 px-8 md:px-16 rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-200">
-              Kostenlos prüfen → nur bei Erfolg €39
-            </button>
+            <Link href="/upload">
+              <button className="bg-gradient-to-r from-[#2C5530] to-[#1E3A21] text-white text-xl md:text-2xl font-bold py-5 px-8 md:px-16 rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-200 cursor-pointer">
+                Kostenlos prüfen → nur bei Erfolg €39
+              </button>
+            </Link>
             <p className="text-sm text-gray-600 mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
               <span>✓ Keine Anmeldung</span>
               <span>✓ Ergebnis in 2 Min</span>
@@ -217,7 +222,7 @@ export default function ZuschussCheckLandingPage() {
 
           {/* Benefits Grid */}
           <div className="grid md:grid-cols-3 gap-6 mb-12">
-            
+
             {/* Benefit 1 */}
             <div className="bg-white rounded-xl shadow-lg p-6 border-t-4 border-[#2C5530] hover:shadow-2xl transition-shadow duration-300">
               <div className="text-5xl mb-4 text-center">⚡</div>
@@ -282,7 +287,7 @@ export default function ZuschussCheckLandingPage() {
           ============================================ */}
       <section className="bg-white py-12 md:py-24 px-4">
         <div className="max-w-6xl mx-auto">
-          
+
           <h2 className="text-3xl md:text-4xl font-bold text-center text-[#2D3436] mb-4">
             So funktioniert's (unter 2 Minuten)
           </h2>
@@ -291,7 +296,7 @@ export default function ZuschussCheckLandingPage() {
           </p>
 
           <div className="grid md:grid-cols-3 gap-8 md:gap-6 items-start mb-12">
-            
+
             {/* Step 1 */}
             <div className="relative">
               <div className="bg-white rounded-xl shadow-lg p-8 border-t-4 border-[#2C5530] hover:shadow-2xl transition-shadow duration-300">
@@ -299,7 +304,7 @@ export default function ZuschussCheckLandingPage() {
                 <div className="absolute -top-4 -left-4 bg-[#2C5530] text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl shadow-lg">
                   1
                 </div>
-                
+
                 {/* Visual Upload Mockup */}
                 <div className="bg-gray-100 rounded-lg p-4 mb-4 border-2 border-dashed border-gray-300">
                   <div className="flex items-center justify-center gap-2 text-gray-600">
@@ -339,7 +344,7 @@ export default function ZuschussCheckLandingPage() {
                 <div className="absolute -top-4 -left-4 bg-[#D4AF37] text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl shadow-lg">
                   2
                 </div>
-                
+
                 {/* Visual Analysis Mockup */}
                 <div className="bg-gray-100 rounded-lg p-3 mb-4 border-2 border-gray-300">
                   <div className="space-y-2">
@@ -387,7 +392,7 @@ export default function ZuschussCheckLandingPage() {
                 <div className="absolute -top-4 -left-4 bg-[#2C5530] text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl shadow-lg">
                   3
                 </div>
-                
+
                 {/* Visual Results Mockup */}
                 <div className="bg-gradient-to-br from-red-50 to-red-100 rounded-lg p-3 mb-4 border-2 border-red-300">
                   <div className="flex items-center justify-between">
@@ -438,7 +443,7 @@ export default function ZuschussCheckLandingPage() {
           ============================================ */}
       <section className="bg-gradient-to-b from-[#FFF8E1] to-white py-12 md:py-24 px-4">
         <div className="max-w-6xl mx-auto">
-          
+
           <h2 className="text-3xl md:text-4xl font-bold text-center text-[#2D3436] mb-4">
             Echtes Beispiel: Café-Gründung in Berlin
           </h2>
@@ -455,7 +460,7 @@ export default function ZuschussCheckLandingPage() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 mb-12">
-            
+
             {/* VORHER Card */}
             <div className="bg-white rounded-2xl shadow-2xl p-8 border-4 border-red-500">
               <div className="flex items-center justify-between mb-6">
@@ -485,7 +490,7 @@ export default function ZuschussCheckLandingPage() {
 
                 <div className="space-y-3">
                   <p className="font-bold text-gray-800">Top 3 Fehler:</p>
-                  
+
                   <div className="flex items-start gap-3 bg-gray-50 p-3 rounded-lg">
                     <span className="text-2xl flex-shrink-0">⊗</span>
                     <div>
@@ -554,7 +559,7 @@ export default function ZuschussCheckLandingPage() {
 
                 <div className="space-y-3">
                   <p className="font-bold text-gray-800">Nach Fixes:</p>
-                  
+
                   <div className="flex items-start gap-3 bg-gray-50 p-3 rounded-lg">
                     <span className="text-2xl flex-shrink-0">✓</span>
                     <div>
@@ -633,7 +638,7 @@ export default function ZuschussCheckLandingPage() {
           ============================================ */}
       <section className="bg-gradient-to-b from-white to-[#F8F6F0] py-12 md:py-16 px-4">
         <div className="max-w-6xl mx-auto">
-          
+
           <h2 className="text-3xl md:text-4xl font-bold text-center text-[#2D3436] mb-4">
             Echte Gründer, echte Erfolge
           </h2>
@@ -642,7 +647,7 @@ export default function ZuschussCheckLandingPage() {
           </p>
 
           <div className="grid md:grid-cols-3 gap-8">
-            
+
             {/* Testimonial 1 - Placeholder */}
             <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500 hover:shadow-2xl transition-shadow">
               <div className="flex items-center gap-4 mb-4">
@@ -714,7 +719,7 @@ export default function ZuschussCheckLandingPage() {
           ============================================ */}
       <section className="bg-white py-12 md:py-24 px-4">
         <div className="max-w-6xl mx-auto">
-          
+
           <h2 className="text-3xl md:text-4xl font-bold text-center text-[#2D3436] mb-4">
             Von Ablehnung zu Bewilligung
           </h2>
@@ -723,13 +728,13 @@ export default function ZuschussCheckLandingPage() {
           </p>
 
           <div className="grid md:grid-cols-2 gap-8 mb-12">
-            
+
             {/* OHNE Card */}
             <div className="bg-gradient-to-br from-red-50 to-red-100 rounded-2xl shadow-xl p-8 border-2 border-red-300">
               <h3 className="text-3xl font-bold text-red-700 mb-6 text-center">
                 ❌ OHNE ZuschussCheck
               </h3>
-              
+
               <div className="space-y-4">
                 <div className="flex items-center gap-4 bg-white/70 rounded-lg p-4 hover:bg-white transition-colors">
                   <span className="text-3xl flex-shrink-0">❌</span>
@@ -770,7 +775,7 @@ export default function ZuschussCheckLandingPage() {
               <h3 className="text-3xl font-bold text-green-700 mb-6 text-center">
                 ✅ MIT ZuschussCheck
               </h3>
-              
+
               <div className="space-y-4">
                 <div className="flex items-center gap-4 bg-white/70 rounded-lg p-4 hover:bg-white transition-colors">
                   <span className="text-3xl flex-shrink-0">✅</span>
@@ -826,9 +831,9 @@ export default function ZuschussCheckLandingPage() {
           ============================================ */}
       <section className="bg-[#E8F5E9]/50 py-12 md:py-24 px-4">
         <div className="max-w-4xl mx-auto">
-          
+
           <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-12 border-4 border-[#2C5530]">
-            
+
             <div className="text-center mb-8">
               <div className="text-6xl mb-4">🎯</div>
               <h2 className="text-3xl md:text-4xl font-bold text-[#2C5530] mb-4">
@@ -912,9 +917,9 @@ export default function ZuschussCheckLandingPage() {
           ============================================ */}
       <section className="bg-white py-12 md:py-16 px-4">
         <div className="max-w-4xl mx-auto">
-          
+
           <div className="bg-[#E8F5E9]/30 rounded-2xl shadow-lg p-8 border-2 border-[#2C5530]/30">
-            
+
             <div className="flex items-center gap-4 mb-6">
               <div className="text-5xl">🔒</div>
               <h2 className="text-2xl md:text-3xl font-bold text-[#2C5530]">
@@ -955,11 +960,13 @@ export default function ZuschussCheckLandingPage() {
           ============================================ */}
       <section className="bg-gradient-to-b from-[#F8F6F0] to-white py-12 md:py-24 px-4 mb-20 md:mb-0">
         <div className="max-w-4xl mx-auto text-center">
-          
+
           {/* Final CTA Button */}
-          <button className="bg-gradient-to-r from-[#2C5530] to-[#1E3A21] text-white text-xl md:text-2xl font-bold py-6 px-12 md:px-16 rounded-xl shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-200 mb-6">
-            Kostenlos prüfen → nur bei Erfolg €39
-          </button>
+          <Link href="/upload">
+            <button className="bg-gradient-to-r from-[#2C5530] to-[#1E3A21] text-white text-xl md:text-2xl font-bold py-6 px-12 md:px-16 rounded-xl shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-200 mb-6 cursor-pointer">
+              Kostenlos prüfen → nur bei Erfolg €39
+            </button>
+          </Link>
 
           {/* Trust subline */}
           <p className="text-sm text-gray-600 mb-12">
@@ -989,7 +996,7 @@ export default function ZuschussCheckLandingPage() {
             <p className="text-xs md:text-sm text-gray-600 uppercase tracking-wider font-semibold mb-6">
               Datengrundlage & Quellen:
             </p>
-            
+
             <div className="grid md:grid-cols-3 gap-6 md:gap-8">
               <div className="flex flex-col items-center gap-2">
                 <div className="text-4xl">🏛️</div>
@@ -1011,7 +1018,7 @@ export default function ZuschussCheckLandingPage() {
 
           {/* ⭐ LEGAL FOOTER - CRITICAL ⭐ */}
           <div className="mt-12 pt-8 border-t border-gray-300">
-            
+
             {/* Legal Links */}
             <div className="flex flex-wrap justify-center gap-4 md:gap-6 text-sm text-gray-600 mb-6">
               <a href="/impressum" className="hover:text-[#2C5530] hover:underline">
@@ -1042,16 +1049,16 @@ export default function ZuschussCheckLandingPage() {
                 <br />
                 Gründungszuschuss-Optimierung für €31.500 Förderung
                 <br />
-                <a href="mailto:info@principai.de" className="hover:text-[#2C5530]">info@principai.de</a> | 
+                <a href="mailto:info@principai.de" className="hover:text-[#2C5530]">info@principai.de</a> |
                 <a href="https://principai.de" className="hover:text-[#2C5530] ml-1">principai.de</a>
               </p>
 
               {/* Legal Disclaimer */}
               <div className="bg-gray-50 rounded-lg p-4 border-l-4 border-gray-300">
                 <p className="text-xs text-gray-600 leading-relaxed">
-                  <span className="font-semibold">Rechtlicher Hinweis:</span> Dies ist keine steuerliche, rechtliche oder wirtschaftliche Beratung. 
-                  Wir analysieren Business Pläne lediglich auf formale Übereinstimmung mit den BA GZ 04 Förderkriterien der Bundesagentur für Arbeit. 
-                  Die finale Bewilligungsentscheidung liegt ausschließlich bei der zuständigen Arbeitsagentur. 
+                  <span className="font-semibold">Rechtlicher Hinweis:</span> Dies ist keine steuerliche, rechtliche oder wirtschaftliche Beratung.
+                  Wir analysieren Business Pläne lediglich auf formale Übereinstimmung mit den BA GZ 04 Förderkriterien der Bundesagentur für Arbeit.
+                  Die finale Bewilligungsentscheidung liegt ausschließlich bei der zuständigen Arbeitsagentur.
                   Es besteht kein Rechtsanspruch auf Gründungszuschuss (Ermessensleistung gemäß §93 SGB III).
                 </p>
               </div>
@@ -1066,9 +1073,11 @@ export default function ZuschussCheckLandingPage() {
           MOBILE STICKY CTA (OPTIMIZED)
           ============================================ */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white shadow-2xl p-3 z-50 border-t-2 border-[#2C5530]">
-        <button className="w-full bg-gradient-to-r from-[#2C5530] to-[#1E3A21] text-white font-bold py-4 rounded-lg shadow-lg active:scale-95 transition-transform">
-          Kostenlos prüfen • Nur €39 bei Erfolg ✓
-        </button>
+        <Link href="/upload" className="block">
+          <button className="w-full bg-gradient-to-r from-[#2C5530] to-[#1E3A21] text-white font-bold py-4 rounded-lg shadow-lg active:scale-95 transition-transform cursor-pointer">
+            Kostenlos prüfen • Nur €39 bei Erfolg ✓
+          </button>
+        </Link>
         <p className="text-xs text-center text-gray-500 mt-2">
           Kein Risiko • 20-Punkte-Garantie
         </p>
