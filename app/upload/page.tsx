@@ -54,6 +54,7 @@ export default function UploadPage() {
   };
 
   const handleAnalyze = async () => {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
     if (!file) return;
 
     try {
@@ -66,7 +67,8 @@ export default function UploadPage() {
 
       setTimeout(() => setProgress(prev => [...prev, 'KI-Analyse abgeschlossen ✓']), 5000);
 
-      const response = await axios.post('http://localhost:8000/api/analyze', formData, {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+      const response = await axios.post(`${apiUrl}/api/analyze`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
