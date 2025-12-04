@@ -79,7 +79,7 @@ export default function ExitIntentUploadModal() {
 
       setTimeout(() => setProgress(prev => [...prev, 'BA GZ 04 Kriterien werden geprüft ✓']), 5000);
 
-      const apiUrl = 'https://web-production-88c1a.up.railway.app';
+      const apiUrl = 'http://localhost:8000';
       const response = await axios.post(`${apiUrl}/api/analyze`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',

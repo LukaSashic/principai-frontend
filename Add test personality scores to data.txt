@@ -1,0 +1,47 @@
+"""Add test personality scores to database"""
+from app.models.database import SessionLocal, PersonalityScore
+from datetime import datetime
+import uuid
+
+db = SessionLocal()
+
+session_id = "test-session-123"
+
+# All 7 personality dimensions
+scores = [
+    {"dimension": "risk_taking", "raw_score": 4, "percentile": 65},
+    {"dimension": "innovativeness", "raw_score": 4, "percentile": 70},
+    {"dimension": "achievement_orientation", "raw_score": 4, "percentile": 75},
+    {"dimension": "autonomy_orientation", "raw_score": 3, "percentile": 45},
+    {"dimension": "proactiveness", "raw_score": 4, "percentile": 68},
+    {"dimension": "locus_of_control", "raw_score": 4, "percentile": 71},
+    {"dimension": "self_efficacy", "raw_score": 4, "percentile": 75},
+]
+
+print("Adding personality scores to database...")
+
+for score_data in scores:
+    score = PersonalityScore(
+        score_id=str(uuid.uuid4()),
+        session_id=session_id,
+        dimension=score_data["dimension"],
+        raw_score=score_data["raw_score"],
+        percentile=score_data["percentile"],
+        interpretation=f"Test interpretation for {score_data['dimension']}",
+        created_at=datetime.utcnow()
+    )
+    db.add(score)
+
+db.commit()
+
+print(f"✅ Added {len(scores)} personality scores!")
+print(f"   Session ID: {session_id}")
+
+# Verify
+count = db.query(PersonalityScore).filter(
+    PersonalityScore.session_id == session_id
+).count()
+
+print(f"✅ Verified: {count} scores in database")
+
+db.close()

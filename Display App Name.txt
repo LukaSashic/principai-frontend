@@ -1,0 +1,8 @@
+Display App Name
+GruenderAI Dev
+
+Client ID
+AcGwZ3FGjG_6lByLfhvoKwaENJcC5dPmTrX0n0csqt5Jr3bo2DW7tTH9nnlj1wFfGqZuXWBEcS4Qmozc
+
+Secret key 1
+EHN0B6cTbBCNxTDP2FM88WdPcUQyCREWn89d9uDQjTFhCqGbFS__9P6BOw2Qh3XXjghH2DQdFfkFPKyz
