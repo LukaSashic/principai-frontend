@@ -48,25 +48,13 @@ export default function ResultsPage() {
     return <TrendingUp className="w-5 h-5 text-amber-500" />;
   };
 
-  const getSeverityLabel = (severity: string) => {
-    const labels: { [key: string]: string } = {
-      'CRITICAL': 'KRITISCH',
-      'HIGH': 'HOCH',
-      'MEDIUM': 'MITTEL',
-      'LOW': 'NIEDRIG'
-    };
-    return labels[severity] || severity;
-  };
-
   const handlePaymentSuccess = async (orderId: string) => {
     try {
       setProcessing(true);
       setError('');
 
-      const apiUrl = 'https://web-production-88c1a.up.railway.app';
-
       // Capture payment and generate report
-      const response = await axios.post(`${apiUrl}/api/capture-payment`, {
+      const response = await axios.post('http://localhost:8000/api/capture-payment', {
         order_id: orderId,
         analysis_id: result.analysis_id,
         customer_email: customerEmail,
@@ -101,17 +89,15 @@ export default function ResultsPage() {
         {/* Header */}
         <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Analyse-Ergebnis</h1>
-          {result.detected_industry && (
-            <p className="text-gray-600">Branche: {result.detected_industry}</p>
-          )}
+          <p className="text-gray-600">Branche: {result.detected_industry || 'Nicht erkannt'}</p>
         </div>
 
         {/* Score Card */}
         <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Bewilligungschance-Score</h2>
-              <p className="text-gray-600">Übereinstimmung mit BA GZ 04 Kriterien</p>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Grant Calibration Score</h2>
+              <p className="text-gray-600">Wahrscheinlichkeit der Genehmigung</p>
             </div>
             <div className="text-center">
               <div className="text-6xl font-bold text-amber-500">{result.score}</div>
@@ -149,7 +135,7 @@ export default function ResultsPage() {
 
         {/* Top 3 Issues */}
         <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Top 3 Kritische Fehler</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Top 3 Critical Issues</h2>
 
           <div className="space-y-6">
             {(result.issues || []).slice(0, 3).map((issue: any, index: number) => (
@@ -161,7 +147,7 @@ export default function ResultsPage() {
                       {index + 1}. {issue.title}
                     </h3>
                     <span className={`inline-block px-3 py-1 rounded-md text-xs font-semibold mb-3 ${getRiskColor(issue.severity)}`}>
-                      {getSeverityLabel(issue.severity)}
+                      {issue.severity}
                     </span>
                     <p className="text-gray-700 mb-4">{issue.description}</p>
 
@@ -188,7 +174,7 @@ export default function ResultsPage() {
             <Download className="w-12 h-12" />
             <div>
               <h2 className="text-2xl font-bold">5-seitiger Detailreport</h2>
-              <p className="opacity-90">Erhalte den vollständigen Report mit allen Fehlern, Benchmarks und Copy-Paste Ready Fixes</p>
+              <p className="opacity-90">Erhalte den vollständigen Report mit allen Issues, Benchmarks und Copy-Paste Ready Fixes</p>
             </div>
           </div>
 
@@ -201,7 +187,7 @@ export default function ResultsPage() {
           </button>
 
           <div className="mt-4 text-center text-sm opacity-90">
-            💳 Sichere Zahlung mit PayPal • 100% Geld-zurück-Garantie
+            💳 Sichere Zahlung mit Stripe • 100% Geld-zurück-Garantie
           </div>
         </div>
 

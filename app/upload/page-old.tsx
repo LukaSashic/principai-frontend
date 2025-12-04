@@ -54,33 +54,34 @@ export default function UploadPage() {
   };
 
   const handleAnalyze = async () => {
-    const apiUrl = 'https://web-production-88c1a.up.railway.app';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
     if (!file) return;
 
     try {
       setAnalyzing(true);
       setError('');
-      setProgress(['Dokument wird verarbeitet ✓']);
+      setProgress(['Text extrahiert ✓']);
 
       const formData = new FormData();
       formData.append('file', file);
 
-      setTimeout(() => setProgress(prev => [...prev, 'BA GZ 04 Kriterien werden geprüft ✓']), 5000);
+      setTimeout(() => setProgress(prev => [...prev, 'KI-Analyse abgeschlossen ✓']), 5000);
 
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
       const response = await axios.post(`${apiUrl}/api/analyze`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
 
-      // Store result in localStorage
+      // CRITICAL: Store result in localStorage
       console.log('Analysis result:', response.data);
       localStorage.setItem('analysisResult', JSON.stringify(response.data));
 
-      // Small delay to ensure localStorage is written
+      // CRITICAL: Add small delay to ensure localStorage is written
       await new Promise(resolve => setTimeout(resolve, 100));
 
-      // Redirect to results
+      // CRITICAL: Redirect to results
       router.push('/results');
 
     } catch (err: any) {
@@ -110,9 +111,8 @@ export default function UploadPage() {
               <div
                 onDrop={handleDrop}
                 onDragOver={(e) => e.preventDefault()}
-                className={`border-2 border-dashed rounded-xl p-12 text-center transition-colors ${
-                  file ? 'border-green-400 bg-green-50' : 'border-gray-300 hover:border-amber-400 hover:bg-amber-50'
-                }`}
+                className={`border-2 border-dashed rounded-xl p-12 text-center transition-colors ${file ? 'border-green-400 bg-green-50' : 'border-gray-300 hover:border-amber-400 hover:bg-amber-50'
+                  }`}
               >
                 {file ? (
                   <div className="flex flex-col items-center gap-4">
@@ -165,7 +165,7 @@ export default function UploadPage() {
                   onClick={handleAnalyze}
                   className="w-full mt-6 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold py-4 px-8 rounded-xl hover:from-amber-600 hover:to-orange-600 transition-all shadow-lg"
                 >
-                  Jetzt analysieren
+                  Plan analysieren
                 </button>
               )}
             </>
@@ -176,9 +176,9 @@ export default function UploadPage() {
                 <Loader2 className="w-16 h-16 text-amber-500 animate-spin" />
                 <div className="text-center">
                   <h3 className="text-xl font-bold text-gray-900 mb-2">
-                    Dein Business Plan wird analysiert...
+                    Claude analysiert deinen Plan...
                   </h3>
-                  <p className="text-gray-600">Prüfung auf BA GZ 04 Förderkriterien</p>
+                  <p className="text-gray-600">Dies dauert etwa 15 Sekunden</p>
                 </div>
 
                 {/* Progress Steps */}

@@ -1,84 +1,10 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import ExitIntentUploadModal from './components/ExitIntentUploadModal'
 import Link from 'next/link'
 
-// Exit Intent Modal Component
-function ExitIntentModal() {
-  const [showModal, setShowModal] = useState(false)
-  const [hasShown, setHasShown] = useState(false)
 
-  useEffect(() => {
-    const handleMouseLeave = (e: MouseEvent) => {
-      // Exit intent: Mouse leaves top of page (desktop only)
-      if (e.clientY <= 0 && !hasShown && window.innerWidth >= 768) {
-        setShowModal(true)
-        setHasShown(true)
-      }
-    }
-
-    document.addEventListener('mouseleave', handleMouseLeave)
-    return () => document.removeEventListener('mouseleave', handleMouseLeave)
-  }, [hasShown])
-
-  if (!showModal) return null
-
-  return (
-    <div
-      className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4"
-      onClick={() => setShowModal(false)}
-    >
-      <div
-        className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8 relative animate-in fade-in slide-in-from-bottom-4 duration-300"
-        onClick={(e) => e.stopPropagation()}
-      >
-
-        {/* Close Button */}
-        <button
-          onClick={() => setShowModal(false)}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-3xl leading-none"
-          aria-label="Schließen"
-        >
-          ×
-        </button>
-
-        {/* Content */}
-        <div className="text-center">
-          <div className="text-6xl mb-4">⚠️</div>
-          <h2 className="text-3xl font-bold text-[#2D3436] mb-4">
-            Warte!
-          </h2>
-          <p className="text-xl text-gray-700 mb-6">
-            Teste <span className="font-bold text-[#2C5530]">kostenlos</span>,<br />
-            ob dein Plan durchkommt
-          </p>
-
-          <div className="bg-[#E8F5E9] rounded-xl p-4 mb-6">
-            <p className="text-sm text-gray-700">
-              <span className="font-bold">Nur 11%</span> der Anträge werden bewilligt.
-              <br />
-              Finde jetzt heraus, ob du dazu gehörst.
-            </p>
-          </div>
-
-          <Link href="/upload">
-            <button
-              onClick={() => setShowModal(false)}
-              className="w-full bg-gradient-to-r from-[#2C5530] to-[#1E3A21] text-white text-lg font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-200 cursor-pointer"
-            >
-              Kostenlos testen
-            </button>
-          </Link>
-
-          <p className="text-xs text-gray-500 mt-3">
-            Keine Anmeldung • Ergebnis in 2 Minuten
-          </p>
-        </div>
-
-      </div>
-    </div>
-  )
-}
 
 // Smart Warning Bar Component (auto-hide on scroll down)
 function SmartWarningBar() {
@@ -148,8 +74,8 @@ export default function ZuschussCheckLandingPage() {
   return (
     <div className="min-h-screen bg-white">
 
-      {/* Exit Intent Modal */}
-      <ExitIntentModal />
+      {/* Exit Intent Upload Modal */}
+      <ExitIntentUploadModal />
 
       {/* Smart Warning Bar (Sticky with auto-hide) */}
       <SmartWarningBar />
