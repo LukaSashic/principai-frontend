@@ -1,0 +1,41 @@
+# GründerAI Backend Environment Variables
+
+# ===== ANTHROPIC (Claude AI) =====
+ANTHROPIC_API_KEY=sk-ant-api03-your-key-here
+
+# ===== PAYPAL =====
+# Mode: "sandbox" for development, "live" for production
+PAYPAL_MODE=sandbox
+
+# Sandbox Credentials (for testing)
+PAYPAL_CLIENT_ID=your-sandbox-client-id
+PAYPAL_SECRET=your-sandbox-secret
+
+# Live Credentials (for production - add when ready)
+# PAYPAL_CLIENT_ID=your-live-client-id
+# PAYPAL_SECRET=your-live-secret
+
+# ===== EMAIL SERVICE =====
+# Mode: "smtp" or "sendgrid"
+EMAIL_MODE=smtp
+
+# Sender Information
+SENDER_EMAIL=info@principal.de
+SENDER_NAME=PrincipalAI - GründerAI
+
+# IONOS SMTP Configuration
+SMTP_HOST=smtp.ionos.de
+SMTP_PORT=587
+SMTP_USER=info@principal.de
+SMTP_PASSWORD=your-email-password-here
+
+# SendGrid (optional - for production)
+# SENDGRID_API_KEY=your-sendgrid-api-key
+
+# ===== SERVER CONFIGURATION =====
+HOST=0.0.0.0
+PORT=8000
+FRONTEND_URL=http://localhost:3001
+
+# ===== OPTIONAL: DATABASE (for production) =====
+# DATABASE_URL=postgresql://user:password@localhost:5432/gruenderai

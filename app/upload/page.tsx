@@ -12,17 +12,17 @@ export default function UploadPage() {
   const [error, setError] = useState('');
   const [progress, setProgress] = useState<string[]>([]);
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
-      // Validate file type
       const validTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
       if (!validTypes.includes(selectedFile.type)) {
         setError('Bitte nur PDF oder DOCX Dateien hochladen');
         return;
       }
 
-      // Validate file size (5MB)
       if (selectedFile.size > 5 * 1024 * 1024) {
         setError('Datei zu groß (max. 5MB)');
         return;
@@ -54,7 +54,6 @@ export default function UploadPage() {
   };
 
   const handleAnalyze = async () => {
-    const apiUrl = 'https://web-production-88c1a.up.railway.app';
     if (!file) return;
 
     try {
@@ -65,27 +64,50 @@ export default function UploadPage() {
       const formData = new FormData();
       formData.append('file', file);
 
-      setTimeout(() => setProgress(prev => [...prev, 'BA GZ 04 Kriterien werden geprüft ✓']), 5000);
+      // Progress updates
+      const progressTimer1 = setTimeout(() => {
+        setProgress(prev => [...prev, 'Text wird extrahiert ✓']);
+      }, 2000);
+      
+      const progressTimer2 = setTimeout(() => {
+        setProgress(prev => [...prev, 'BA GZ 04 Kriterien werden geprüft ✓']);
+      }, 5000);
 
-      const response = await axios.post(`${apiUrl}/api/analyze`, formData, {
+      const progressTimer3 = setTimeout(() => {
+        setProgress(prev => [...prev, 'Kopiervorlagen werden erstellt ✓']);
+      }, 10000);
+
+      const response = await axios.post(`${API_URL}/api/analyze`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
 
-      // Store result in localStorage
+      // Clear timers
+      clearTimeout(progressTimer1);
+      clearTimeout(progressTimer2);
+      clearTimeout(progressTimer3);
+
       console.log('Analysis result:', response.data);
+
+      // ✅ FIX: Get analysis_id (not session_id!)
+      const analysisId = response.data.analysis_id || response.data.session_id;
+      
+      if (!analysisId) {
+        console.error('Response data:', response.data);
+        throw new Error('Keine Analysis-ID vom Server erhalten');
+      }
+
+      // Store in localStorage as backup
       localStorage.setItem('analysisResult', JSON.stringify(response.data));
+      localStorage.setItem('lastAnalysisId', analysisId);
 
-      // Small delay to ensure localStorage is written
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      // Redirect to results
-      router.push('/results');
+      // ✅ Redirect to results WITH analysis ID
+      router.push(`/results/${analysisId}`);
 
     } catch (err: any) {
       console.error('Analysis error:', err);
-      setError(err.response?.data?.detail || 'Analyse fehlgeschlagen. Bitte versuche es erneut.');
+      setError(err.response?.data?.detail || err.message || 'Analyse fehlgeschlagen. Bitte versuche es erneut.');
       setAnalyzing(false);
       setProgress([]);
     }

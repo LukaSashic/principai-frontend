@@ -1,0 +1,11 @@
+# GründerAI Frontend Environment Variables
+
+# ===== PAYPAL =====
+# Sandbox Client ID (for development)
+NEXT_PUBLIC_PAYPAL_CLIENT_ID=your-sandbox-client-id
+
+# Live Client ID (for production - add when ready)
+# NEXT_PUBLIC_PAYPAL_CLIENT_ID=your-live-client-id
+
+# ===== API CONFIGURATION =====
+NEXT_PUBLIC_API_URL=http://localhost:8000
